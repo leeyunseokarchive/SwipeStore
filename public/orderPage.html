@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Swipe Store</title>
+
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./zoomDisabler.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <button onclick="history.back();">뒤로가기</button>
+
+    <p>주문서</p>
+
+    <form id="orderForm">
+        <p>이름</p>
+        <input type="text" id="buyer" placeholder="ex) 홍길동" />
+        <p>휴대폰번호</p>
+        <input type="text" id="phoneNum" placeholder="- 없이 입력" />
+        <p>비밀번호</p>
+        <input type="password" id="pwd" placeholder="주문확인과 수정 시 필요" />
+        <p>주소</p>
+        <input type="text" id="address" placeholder="ex) 서울 종로구 청와대로 73" />
+        <p>상세주소</p>
+        <input type="text" id="detailAddress" placeholder="ex) 101동 101호" />
+    </form>
+    <p>요청사항(선택)</p>
+    <input type="text" id="request" placeholder="ex) 문 앞에 놔주세요" />
+
+    <p>상품</p>
+    <div class="swiper-slide" style="background-image: url('./images/test.jpg');"></div>
+    <p class="productCost" id="price">8,900₩</p>
+    <p>구매수량</p>
+    <input type="number" id="quentity" min='1' max='99' value="1" />
+    <p>결제금액</p>
+    <p>상품금액</p>
+    <p class="totalProductCost" id="totalProductCost">8,900₩ * 1 = 8,900₩</p>
+    <p>배송비</p>
+    <p class="shippingCost" id="shippingCost">0₩</p>
+    <p>총결제금액</p>
+    <p class="total" id="total">8,900₩</p>
+
+    <button style="display: block;" onclick="order()">주문하기</button>
+</body>
+
+<script>
+    // 8900 > 8,900₩
+    function priceToString(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "₩";
+    }
+
+    // 8,900₩ > 8900
+    function stringToPrice(price) {
+        return Number(price.replace(/[^0-9]/g, ''));
+    }
+
+    $("#quentity").change(function () {
+        var quentity = $("#quentity").val();
+        var price = stringToPrice($("#price").text());
+        var shippingCost = stringToPrice($("#shippingCost").text());
+        var total = price * quentity + shippingCost;
+        $("#totalProductCost").text($("#price").text() + " * " + quentity + " = " + priceToString(price * quentity));
+        $("#total").text(priceToString(total));
+    });
+
+    function order() {
+        var isValid = true;
+        $("#orderForm").find('input[type!="hidden"]').each(function () {
+            if ($(this).val().trim() == '') {
+                alert("주문서를 모두 채워주세요");
+                $(this).focus();
+                isValid = false;
+                return false;
+            }
+        });
+
+        if(isValid) {
+            var template = {
+            buyer: $("#buyer").val(),
+            phoneNum: $("#phoneNum").val(),
+            pwd: $("#pwd").val(),
+            address: $("#address").val(),
+            detailAddress: $("#detailAddress").val(),
+            request: $("#request").val(),
+            quentity: $("#quentity").val(),
+            total: $("#total").text(),
+            status: "주문 확인 중"
+        }
+        console.log(template);
+        }
+        
+    }
+</script>
+
+</html>

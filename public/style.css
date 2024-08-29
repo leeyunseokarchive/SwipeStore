@@ -1,8 +1,8 @@
 html {
     overscroll-behavior: none;
-  }
-  
-  body {
+}
+
+body {
     touch-action: pan-y, pan-x;
     position: absolute;
     top: 0px;
@@ -10,4 +10,12 @@ html {
     width: 100%;
     min-width: 340px;
     height: 100%;
-  }
+}
+
+.swiper-slide {
+    width: 200px;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
