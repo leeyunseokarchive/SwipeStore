@@ -1,0 +1,13 @@
+html {
+    overscroll-behavior: none;
+  }
+  
+  body {
+    touch-action: pan-y, pan-x;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    min-width: 340px;
+    height: 100%;
+  }
